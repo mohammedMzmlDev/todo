@@ -51,6 +51,7 @@ function App() {
   return (
     <>
       <section id="center">
+        <h1>Todo Application</h1>
         <form action="" onSubmit={createTodo}>
         <input type="text" name="todoInput" id="" onChange={addTodoHandler} value={currentTdod}/>
         <button type="submit">{updatingTdod ? 'Update' : 'Create'}</button>
