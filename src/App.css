@@ -182,3 +182,50 @@
     border-right-color: var(--border);
   }
 }
+
+.insert-handle {
+  position: relative;
+  margin-top: 4px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.insert-line-inner {
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  right: 8px;
+  border-top: 1px solid transparent;
+  transform: translateY(-50%);
+  transition: border-color 0.2s ease;
+  z-index: 0;
+}
+
+.insert-button {
+  position: relative;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 700;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.insert-handle:hover .insert-line-inner {
+  border-top-color: rgba(255, 255, 255, 0.9);
+}
+
+.insert-handle:hover .insert-button {
+  opacity: 1;
+}

@@ -13,7 +13,13 @@ export const fetchDummyTodos = createAsyncThunk(
 
 interface todoInterface {
     id : number,
-    text : string
+    text : string,
+    scratched: boolean
+}
+
+interface editTodoPayload {
+    id: number,
+    text: string
 }
 
 interface initialStateInterface { 
@@ -28,19 +34,31 @@ const todoSlice = createSlice({
         loading : false,
         todos : [{
         id: 0,
-        text : 'Feed cat'
+        text : 'Feed cat',
+        scratched: false
     }]
     } as initialStateInterface,
     reducers: {
         addTodo : (state, action: PayloadAction<{id:number,text:string}>) => {
-            state.todos.push(action.payload);
+            state.todos.push({ ...action.payload, scratched: false });
+        },
+        addTodoAt : (state, action: PayloadAction<{id:number,text:string,index:number}>) => {
+            state.todos.splice(action.payload.index, 0, { id: action.payload.id, text: action.payload.text, scratched: false });
         },
         deleteTodo : (state, action:PayloadAction<number>) => {
             state.todos = state.todos.filter((todo) => todo.id !== action.payload);
         },
-        editTodo : (state, action:PayloadAction<todoInterface>) => {
+        editTodo : (state, action:PayloadAction<editTodoPayload>) => {
             const index = state.todos.findIndex((todos:any) => todos.id == action.payload.id);
-            state.todos[index].text = action.payload.text
+            if (index !== -1) {
+                state.todos[index].text = action.payload.text
+            }
+        },
+        toggleScratch : (state, action:PayloadAction<number>) => {
+            const index = state.todos.findIndex((todos:any) => todos.id == action.payload);
+            if (index !== -1) {
+                state.todos[index].scratched = !state.todos[index].scratched;
+            }
         }
     },
     extraReducers : (builder) => {
@@ -50,6 +68,6 @@ const todoSlice = createSlice({
     }
 })
 
-export const { addTodo, deleteTodo, editTodo, } = todoSlice.actions;
+export const { addTodo, addTodoAt, deleteTodo, editTodo, toggleScratch } = todoSlice.actions;
 
 export default todoSlice.reducer;
